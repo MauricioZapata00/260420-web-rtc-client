@@ -101,7 +101,7 @@ root/
 All five server-side events have a corresponding client-side handler wired in `lib/webrtc/peer.ts`:
 
 | Server event            | Client-side handler location |
-|-------------------------|------------------------------|
+| ----------------------- | ---------------------------- |
 | `connectionstatechange` | `pc.onconnectionstatechange` |
 | `datachannel`           | `pc.ondatachannel`           |
 | `message`               | `dc.onmessage`               |
@@ -133,11 +133,11 @@ interface ConnectionStore {
 export const connection = writable<ConnectionStore>({ state: 'idle', error: null });
 
 export function setConnected() {
-	connection.update(s => ({ ...s, state: 'connected', error: null }));
+	connection.update((s) => ({ ...s, state: 'connected', error: null }));
 }
 
 export function setFailed(error: string) {
-	connection.update(s => ({ ...s, state: 'failed', error }));
+	connection.update((s) => ({ ...s, state: 'failed', error }));
 }
 ```
 
@@ -158,14 +158,30 @@ export function setFailed(error: string) {
 
 - Unit tests live in `src/lib/**/*.test.ts`, co-located beside the file under test (e.g. `peer.test.ts` next to
   `peer.ts`).
-- Use **Vitest** as the test runner and **@testing-library/svelte** for component tests.
+- Use **Vitest** as the sole test runner with **`jsdom`** as the global environment (configured in `vite.config.ts`).
 - **Pure functions** (`lib/services/`, `lib/stores/` update functions): plain `test()` — no mocks needed.
-- **WebRTC logic** (`lib/webrtc/`): mock `RTCPeerConnection` and `RTCDataChannel` with `vi.fn()` / `vi.stubGlobal()` to
-  force each event and error path independently.
-- **Component tests** (`lib/components/`): render with `@testing-library/svelte`, assert on DOM output and emitted
-  events — never assert on internal store state from within a component test.
+- **WebRTC logic** (`lib/webrtc/`): mock `RTCPeerConnection`, `RTCDataChannel`, and `WebSocket` with `vi.fn()` /
+  `vi.stubGlobal()` to force each event and error path independently.
 - **Store tests**: import the store and its update functions, call them, and assert on `get(store)` — no component
   mounting required.
+- **Service tests**: mock `globalThis.fetch` and `WebSocket` with `vi.stubGlobal()` — assert on call arguments and
+  return values.
+- **Component tests** (`lib/components/`): use Svelte 5's `mount` / `unmount` to render into a `document.createElement`
+  target; assert on the DOM element type and presence — never assert on internal store state.
+
+  ```ts
+  import { mount, unmount } from 'svelte';
+  import ConnectButton from './ConnectButton.svelte';
+
+  test('renders a button element', () => {
+  	const target = document.createElement('div');
+  	document.body.appendChild(target);
+  	const c = mount(ConnectButton, { target, props: { disabled: false } });
+  	expect(target.querySelector('button')).not.toBeNull();
+  	unmount(c);
+  });
+  ```
+
 - Cover happy path, every error variant, and boundary values for every exported function.
 
 ---
@@ -179,11 +195,13 @@ export function setFailed(error: string) {
 
 ```ts
 // lib/services/sendOffer.ts — example shape
-export async function sendOffer(offer: RTCSessionDescriptionInit): Promise<RTCSessionDescriptionInit> {
+export async function sendOffer(
+	offer: RTCSessionDescriptionInit
+): Promise<RTCSessionDescriptionInit> {
 	const res = await fetch('/api/offer', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(offer),
+		body: JSON.stringify(offer)
 	});
 	if (!res.ok) throw new Error(`Signaling error: ${res.status}`);
 	return res.json();
@@ -195,7 +213,7 @@ export async function sendOffer(offer: RTCSessionDescriptionInit): Promise<RTCSe
 ## Naming Conventions
 
 | Artifact         | Convention                                    | Example                         |
-|------------------|-----------------------------------------------|---------------------------------|
+| ---------------- | --------------------------------------------- | ------------------------------- |
 | Components       | `PascalCase.svelte`                           | `RemoteVideo.svelte`            |
 | Stores           | `camelCase.ts`, exported store in `camelCase` | `connection.ts` → `connection`  |
 | Services         | `camelCase` verb + noun                       | `sendOffer.ts`                  |

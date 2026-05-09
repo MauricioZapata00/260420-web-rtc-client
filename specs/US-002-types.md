@@ -12,12 +12,12 @@ than two modules. The server API contract is defined in the server's `README.md`
 
 **Server API shapes the client must mirror:**
 
-| Server endpoint    | Client type              |
-|--------------------|--------------------------|
-| `POST /offer` body | `SdpOffer`               |
-| `POST /offer` resp | `OfferResponse`          |
-| `GET /ws/ice` msg  | `IceWsMessage` (union)   |
-| Data channel msg   | `ChatMessage`            |
+| Server endpoint    | Client type            |
+|--------------------|------------------------|
+| `POST /offer` body | `SdpOffer`             |
+| `POST /offer` resp | `OfferResponse`        |
+| `GET /ws/ice` msg  | `IceWsMessage` (union) |
+| Data channel msg   | `ChatMessage`          |
 
 ## Acceptance Criteria
 

@@ -37,9 +37,9 @@ tile grid is the expected pattern for remote video.
 - [ ] Accepts prop `streams: Array<{ peerId: string; stream: MediaStream }>`.
 - [ ] Renders a `RemoteVideo` for each entry.
 - [ ] Uses a CSS grid layout (Tailwind `grid`) that adapts to the number of participants:
-  - 1–4 streams: 2-column grid.
-  - 5–9 streams: 3-column grid.
-  - 10+ streams: 4-column grid (scrollable overflow).
+    - 1–4 streams: 2-column grid.
+    - 5–9 streams: 3-column grid.
+    - 10+ streams: 4-column grid (scrollable overflow).
 - [ ] When `streams` is empty, renders a message: `"Waiting for others to join…"`.
 
 ### `lib/components/buttons/ConnectButton.svelte`
@@ -69,11 +69,11 @@ tile grid is the expected pattern for remote video.
 
 - [ ] Accepts prop `state: ConnectionState`.
 - [ ] Renders a small coloured dot + label:
-  - `idle` → grey dot, `"Idle"`.
-  - `connecting` → yellow dot, `"Connecting"`.
-  - `connected` → green dot, `"Connected"`.
-  - `failed` → red dot, `"Failed"`.
-  - `closed` → grey dot, `"Closed"`.
+    - `idle` → grey dot, `"Idle"`.
+    - `connecting` → yellow dot, `"Connecting"`.
+    - `connected` → green dot, `"Connected"`.
+    - `failed` → red dot, `"Failed"`.
+    - `closed` → grey dot, `"Closed"`.
 
 ### `lib/components/chat/ChatPanel.svelte`
 
@@ -87,15 +87,17 @@ tile grid is the expected pattern for remote video.
 
 ### Tests (`lib/components/**/*.test.ts`)
 
-- [ ] Use `@testing-library/svelte` + `render()` — assert on DOM output and emitted events.
-- [ ] **Never** assert on internal store state from within a component test.
-- [ ] `LocalVideo.svelte` — renders placeholder when `stream` is `null`; renders `<video>` when stream is provided.
-- [ ] `ConnectButton.svelte` — disabled when prop is `true`; emits `connect` on click.
-- [ ] `MediaToggleButton.svelte` — emits `toggle` on click; label/style reflects `enabled` prop.
-- [ ] `ConnectionAlert.svelte` — renders nothing for `idle`; correct text for each other state.
-- [ ] `ConnectionStateIndicator.svelte` — correct label for each state.
-- [ ] `ChatPanel.svelte` — emits `send` with input text on submit; input clears after submit; send disabled when input
-  empty.
+Use Vitest with the global `jsdom` environment. Mount each component with Svelte 5's `mount` / `unmount` into a
+`document.createElement('div')` target; assert on DOM element types and presence only — never on internal store state.
+
+- [ ] `ConnectionAlert.svelte` — renders no element when `state === 'idle'`; renders a non-null element when state is
+  `'connecting'`, `'failed'`, or `'closed'`.
+- [ ] `ConnectButton.svelte` — a `<button>` element is present in the DOM.
+- [ ] `MediaToggleButton.svelte` — a `<button>` element is present in the DOM.
+- [ ] `ConnectionStateIndicator.svelte` — a non-null element is present in the DOM for each `ConnectionState` value.
+- [ ] `LocalVideo.svelte` — a `<video>` element is present in the DOM.
+- [ ] `RemoteVideo.svelte` — a `<video>` element is present in the DOM.
+- [ ] `ChatPanel.svelte` — a `<form>` and an `<input>` element are present in the DOM.
 
 ## Out of Scope
 

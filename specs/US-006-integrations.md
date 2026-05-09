@@ -23,18 +23,18 @@ The WebSocket is module-level singleton — one instance per session, replaced o
 ### `lib/integrations/signalingSocket.ts`
 
 - [ ] Exports `function openSignalingSocket(pc: RTCPeerConnection, peerId: string): WebSocket`.
-  - Opens `new WebSocket(\`/ws/ice?peer_id=${peerId}\`)` (path-relative so Nginx proxying works).
-  - Wires `pc.onicecandidate` → calls `sendIceCandidate(ws, candidate)` from `lib/services/` for every non-null
-    candidate.
-  - On `ws.onmessage` with `type: 'candidate'` → calls `pc.addIceCandidate(msg.data)`.
-  - On `ws.onmessage` with `type: 'done'` → no-op (ICE gathering complete; log at debug level if needed).
-  - On `ws.onmessage` with `type: 'offer'` (SFU renegotiation):
-    1. `pc.setRemoteDescription({ type: 'offer', sdp: msg.data.sdp })`.
-    2. `pc.createAnswer()` and `pc.setLocalDescription(answer)`.
-    3. Calls `sendRenegotiationAnswer(ws, answer)` from `lib/services/`.
-  - Returns the `WebSocket` instance to the caller.
+    - Opens `new WebSocket(\`/ws/ice?peer_id=${peerId}\`)` (path-relative so Nginx proxying works).
+    - Wires `pc.onicecandidate` → calls `sendIceCandidate(ws, candidate)` from `lib/services/` for every non-null
+      candidate.
+    - On `ws.onmessage` with `type: 'candidate'` → calls `pc.addIceCandidate(msg.data)`.
+    - On `ws.onmessage` with `type: 'done'` → no-op (ICE gathering complete; log at debug level if needed).
+    - On `ws.onmessage` with `type: 'offer'` (SFU renegotiation):
+        1. `pc.setRemoteDescription({ type: 'offer', sdp: msg.data.sdp })`.
+        2. `pc.createAnswer()` and `pc.setLocalDescription(answer)`.
+        3. Calls `sendRenegotiationAnswer(ws, answer)` from `lib/services/`.
+    - Returns the `WebSocket` instance to the caller.
 - [ ] Exports `function closeSignalingSocket(ws: WebSocket): void`.
-  - Calls `ws.close()` if `ws.readyState` is `OPEN` or `CONNECTING`.
+    - Calls `ws.close()` if `ws.readyState` is `OPEN` or `CONNECTING`.
 
 ### Tests (`lib/integrations/signalingSocket.test.ts`)
 

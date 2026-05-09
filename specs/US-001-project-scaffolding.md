@@ -65,15 +65,13 @@ src/
 
 ## Dependencies Added (`package.json`)
 
-| Package                      | Purpose                                        |
-|------------------------------|------------------------------------------------|
-| `tailwindcss`                | Utility-first CSS framework (see `CLAUDE.md`)  |
-| `@tailwindcss/vite`          | Vite integration for Tailwind CSS              |
-| `clsx`                       | Conditional class-name helper                  |
-| `vitest`                     | Test runner                                    |
-| `@testing-library/svelte`    | Component test utilities                       |
-| `@testing-library/jest-dom`  | DOM matchers for Vitest                        |
-| `jsdom`                      | DOM environment for Vitest                     |
+| Package             | Purpose                                                        |
+|---------------------|----------------------------------------------------------------|
+| `tailwindcss`       | Utility-first CSS framework (see `CLAUDE.md`)                  |
+| `@tailwindcss/vite` | Vite integration for Tailwind CSS                              |
+| `clsx`              | Conditional class-name helper                                  |
+| `vitest`            | Test runner                                                    |
+| `jsdom`             | DOM environment for Vitest — used by component and store tests |
 
 ## Out of Scope
 

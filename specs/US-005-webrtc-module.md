@@ -25,34 +25,34 @@ stun:stun1.l.google.com:19302
 ### `lib/webrtc/peer.ts`
 
 - [ ] Exports `function createPeerConnection(): RTCPeerConnection`.
-  - Configures `iceServers` with Google's two STUN servers.
-  - Wires all five event handlers before returning.
+    - Configures `iceServers` with Google's two STUN servers.
+    - Wires all five event handlers before returning.
 - [ ] `pc.onconnectionstatechange` — calls `setConnected` / `setFailed` / `setClosed` from `lib/stores/connection.ts`
   based on `pc.connectionState`.
 - [ ] `pc.ondatachannel` — receives the server-reflected data channel; wires `onmessage` and `onclose` via
   `lib/webrtc/datachannel.ts`.
 - [ ] `pc.ontrack` — appends the received `MediaStream` to the remote video store (see US-006 — `remoteStreams` store).
 - [ ] Exports `async function initiateConnection(): Promise<{ pc: RTCPeerConnection; peerId: string }>`.
-  - Creates a peer connection.
-  - Adds a `'chat'` data channel via `openDataChannel(pc)` (from `lib/webrtc/datachannel.ts`).
-  - Creates an SDP offer with `createOffer()`, sets it as local description.
-  - Calls `sendOffer` from `lib/services/` and receives the `OfferResponse`.
-  - Sets the remote description from the answer SDP.
-  - Calls `setConnecting()` before the offer, `setConnected(peerId)` after the answer is applied.
-  - Returns `{ pc, peerId }`.
-  - On any error, calls `setFailed(error.message)` and re-throws.
+    - Creates a peer connection.
+    - Adds a `'chat'` data channel via `openDataChannel(pc)` (from `lib/webrtc/datachannel.ts`).
+    - Creates an SDP offer with `createOffer()`, sets it as local description.
+    - Calls `sendOffer` from `lib/services/` and receives the `OfferResponse`.
+    - Sets the remote description from the answer SDP.
+    - Calls `setConnecting()` before the offer, `setConnected(peerId)` after the answer is applied.
+    - Returns `{ pc, peerId }`.
+    - On any error, calls `setFailed(error.message)` and re-throws.
 
 ### `lib/webrtc/datachannel.ts`
 
 - [ ] Exports `function openDataChannel(pc: RTCPeerConnection): RTCDataChannel`.
-  - Calls `pc.createDataChannel('chat')`.
-  - Wires `onopen`, `onclose`, and `onmessage`.
-  - Returns the data channel.
+    - Calls `pc.createDataChannel('chat')`.
+    - Wires `onopen`, `onclose`, and `onmessage`.
+    - Returns the data channel.
 - [ ] `dc.onmessage` — parses the JSON `ChatMessage` and calls `addMessage` from `lib/stores/messages.ts`.
 - [ ] `dc.onclose` — no-op (connection state is tracked via `pc.onconnectionstatechange`).
 - [ ] Exports `function sendChatMessage(dc: RTCDataChannel, text: string): void`.
-  - Calls `dc.send(text)`.
-  - Only sends when `dc.readyState === 'open'` — silently drops otherwise.
+    - Calls `dc.send(text)`.
+    - Only sends when `dc.readyState === 'open'` — silently drops otherwise.
 
 ### `lib/webrtc/index.ts`
 
@@ -65,7 +65,8 @@ stun:stun1.l.google.com:19302
 
 - [ ] Use `vi.stubGlobal('RTCPeerConnection', ...)` to replace the global with a mock class.
 - [ ] `createPeerConnection()` — asserts that `RTCPeerConnection` was constructed with the two Google STUN servers.
-- [ ] `pc.onconnectionstatechange` with `connectionState = 'connected'` → assert `setConnected` store function is called.
+- [ ] `pc.onconnectionstatechange` with `connectionState = 'connected'` → assert `setConnected` store function is
+  called.
 - [ ] `pc.onconnectionstatechange` with `connectionState = 'failed'` → assert `setFailed` is called.
 - [ ] `pc.onconnectionstatechange` with `connectionState = 'closed'` → assert `setClosed` is called.
 - [ ] `pc.ontrack` — fires with a mock `MediaStreamTrack`; asserts the remote streams store is updated.
