@@ -66,7 +66,7 @@ src/
 ## Dependencies Added (`package.json`)
 
 | Package             | Purpose                                                        |
-|---------------------|----------------------------------------------------------------|
+| ------------------- | -------------------------------------------------------------- |
 | `tailwindcss`       | Utility-first CSS framework (see `CLAUDE.md`)                  |
 | `@tailwindcss/vite` | Vite integration for Tailwind CSS                              |
 | `clsx`              | Conditional class-name helper                                  |

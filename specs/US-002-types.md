@@ -13,7 +13,7 @@ than two modules. The server API contract is defined in the server's `README.md`
 **Server API shapes the client must mirror:**
 
 | Server endpoint    | Client type            |
-|--------------------|------------------------|
+| ------------------ | ---------------------- |
 | `POST /offer` body | `SdpOffer`             |
 | `POST /offer` resp | `OfferResponse`        |
 | `GET /ws/ice` msg  | `IceWsMessage` (union) |
@@ -26,14 +26,14 @@ than two modules. The server API contract is defined in the server's `README.md`
 - [ ] `SdpOffer` — `{ sdp: string }` — matches `POST /offer` request body.
 - [ ] `OfferResponse` — `{ peer_id: string; sdp: string }` — matches `POST /offer` response body.
 - [ ] `IceCandidate` — `{ candidate: string; sdp_mid: string | null; sdp_mline_index: number | null }` — matches the
-  ICE candidate shape in the WebSocket protocol.
+      ICE candidate shape in the WebSocket protocol.
 - [ ] `IceWsMessage` — discriminated union with `type` field:
-    - `{ type: 'candidate'; data: IceCandidate }` — server sends a gathered ICE candidate.
-    - `{ type: 'done' }` — server ICE gathering complete.
-    - `{ type: 'offer'; data: { sdp: string } }` — SFU renegotiation offer.
+  - `{ type: 'candidate'; data: IceCandidate }` — server sends a gathered ICE candidate.
+  - `{ type: 'done' }` — server ICE gathering complete.
+  - `{ type: 'offer'; data: { sdp: string } }` — SFU renegotiation offer.
 - [ ] `IceWsClientMessage` — discriminated union of messages the browser sends:
-    - `{ type: 'candidate'; data: IceCandidate }` — browser-gathered ICE candidate.
-    - `{ type: 'answer'; data: { sdp: string } }` — reply to an SFU renegotiation offer.
+  - `{ type: 'candidate'; data: IceCandidate }` — browser-gathered ICE candidate.
+  - `{ type: 'answer'; data: { sdp: string } }` — reply to an SFU renegotiation offer.
 - [ ] `ChatMessage` — `{ from: string; text: string }` — data-channel message shape (server stamps `from`).
 - [ ] `ConnectionState` — `'idle' | 'connecting' | 'connected' | 'failed' | 'closed'`.
 - [ ] `MediaState` — `{ cameraEnabled: boolean; micEnabled: boolean }`.

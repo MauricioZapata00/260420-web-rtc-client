@@ -23,7 +23,7 @@ tile grid is the expected pattern for remote video.
 - [ ] The video is always muted (prevent echo) and auto-plays.
 - [ ] Shows a placeholder (dark rounded rectangle with an icon or initials) when `stream` is `null`.
 - [ ] Accepts prop `cameraEnabled: boolean`; when `false`, overlays a visual indicator (e.g. a crossed-out camera icon)
-  on the video tile.
+      on the video tile.
 
 ### `lib/components/video/RemoteVideo.svelte`
 
@@ -37,9 +37,9 @@ tile grid is the expected pattern for remote video.
 - [ ] Accepts prop `streams: Array<{ peerId: string; stream: MediaStream }>`.
 - [ ] Renders a `RemoteVideo` for each entry.
 - [ ] Uses a CSS grid layout (Tailwind `grid`) that adapts to the number of participants:
-    - 1–4 streams: 2-column grid.
-    - 5–9 streams: 3-column grid.
-    - 10+ streams: 4-column grid (scrollable overflow).
+  - 1–4 streams: 2-column grid.
+  - 5–9 streams: 3-column grid.
+  - 10+ streams: 4-column grid (scrollable overflow).
 - [ ] When `streams` is empty, renders a message: `"Waiting for others to join…"`.
 
 ### `lib/components/buttons/ConnectButton.svelte`
@@ -69,11 +69,11 @@ tile grid is the expected pattern for remote video.
 
 - [ ] Accepts prop `state: ConnectionState`.
 - [ ] Renders a small coloured dot + label:
-    - `idle` → grey dot, `"Idle"`.
-    - `connecting` → yellow dot, `"Connecting"`.
-    - `connected` → green dot, `"Connected"`.
-    - `failed` → red dot, `"Failed"`.
-    - `closed` → grey dot, `"Closed"`.
+  - `idle` → grey dot, `"Idle"`.
+  - `connecting` → yellow dot, `"Connecting"`.
+  - `connected` → green dot, `"Connected"`.
+  - `failed` → red dot, `"Failed"`.
+  - `closed` → grey dot, `"Closed"`.
 
 ### `lib/components/chat/ChatPanel.svelte`
 
@@ -83,7 +83,7 @@ tile grid is the expected pattern for remote video.
 - [ ] Auto-scrolls to the latest message when `messages` updates.
 - [ ] Input clears after submission.
 - [ ] Send button is disabled when the input is empty or the WebRTC data channel is not open (accepts prop
-  `channelOpen: boolean`).
+      `channelOpen: boolean`).
 
 ### Tests (`lib/components/**/*.test.ts`)
 
@@ -91,7 +91,7 @@ Use Vitest with the global `jsdom` environment. Mount each component with Svelte
 `document.createElement('div')` target; assert on DOM element types and presence only — never on internal store state.
 
 - [ ] `ConnectionAlert.svelte` — renders no element when `state === 'idle'`; renders a non-null element when state is
-  `'connecting'`, `'failed'`, or `'closed'`.
+      `'connecting'`, `'failed'`, or `'closed'`.
 - [ ] `ConnectButton.svelte` — a `<button>` element is present in the DOM.
 - [ ] `MediaToggleButton.svelte` — a `<button>` element is present in the DOM.
 - [ ] `ConnectionStateIndicator.svelte` — a non-null element is present in the DOM for each `ConnectionState` value.

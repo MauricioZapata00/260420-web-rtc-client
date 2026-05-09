@@ -17,7 +17,7 @@ functions.
 ### `lib/stores/connection.ts`
 
 - [ ] Exports `connection` — a `writable<ConnectionStore>` initialised to `{ state: 'idle', error: null }`.
-    - `ConnectionStore` shape: `{ state: ConnectionState; error: string | null }`.
+  - `ConnectionStore` shape: `{ state: ConnectionState; error: string | null }`.
 - [ ] Exports `peerId` — a `writable<string | null>` initialised to `null`. Holds the UUID returned by `POST /offer`.
 - [ ] Exports `setConnecting()` — sets state to `'connecting'`, clears error.
 - [ ] Exports `setConnected(peerId: string)` — sets state to `'connected'`, stores the peer ID, clears error.
@@ -28,7 +28,7 @@ functions.
 ### `lib/stores/media.ts`
 
 - [ ] Exports `media` — a `writable<MediaStore>` initialised to `{ cameraEnabled: true, micEnabled: true }`.
-    - `MediaStore` shape: `{ cameraEnabled: boolean; micEnabled: boolean }`.
+  - `MediaStore` shape: `{ cameraEnabled: boolean; micEnabled: boolean }`.
 - [ ] Exports `toggleCamera()` — flips `cameraEnabled`.
 - [ ] Exports `toggleMic()` — flips `micEnabled`.
 - [ ] Exports `setCamera(enabled: boolean)` — sets `cameraEnabled` to the given value.
